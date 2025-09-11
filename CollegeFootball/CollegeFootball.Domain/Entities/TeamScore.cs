@@ -17,5 +17,6 @@ namespace CollegeFootball.Domain.Entities
         public int? TotalLosses { get; set; }
         public int? TotalTies { get; set; }
         public int? TotalWins { get; set; }
+        public int? TotalGames { get; set; }
     }
 }
