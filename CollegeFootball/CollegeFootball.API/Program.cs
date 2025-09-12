@@ -1,6 +1,22 @@
+using CollegeFootball.Domain.Interfaces.Repositories;
+using CollegeFootball.Domain.Interfaces.Services;
+using CollegeFootball.Repositories.DataContext;
+using CollegeFootball.Repositories.Implementations;
+using CollegeFootball.Services.Implementations;
+
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<TeamScoreDataContext>(options => {
+    options.UseSqlite("Data Source=Database/FootballScores.db");
+});
+
+builder.Services.AddScoped<ITeamScoreSqlRepository, TeamScoreSqlRepository>();
+builder.Services.AddScoped<ITeamScoreCsvRepository, TeamScoreCsvRepository>();
+
+builder.Services.AddTransient<ITeamScoreService, TeamScoreService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

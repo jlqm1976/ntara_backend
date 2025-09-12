@@ -8,6 +8,6 @@ namespace CollegeFootball.Domain.Interfaces.Services
 {
     public interface ITeamScoreService
     {
-        bool AddRecordsFromCsv(string csvFilePath);
+        Task<bool> ImportRecordsFromCsv(string csvFilePath);
     }
 }

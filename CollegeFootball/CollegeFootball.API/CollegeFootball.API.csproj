@@ -15,4 +15,9 @@
     <Folder Include="Database\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CollegeFootball.Repositories\CollegeFootball.Repositories.csproj" />
+    <ProjectReference Include="..\CollegeFootball.Services\CollegeFootball.Services.csproj" />
+  </ItemGroup>
+
 </Project>
