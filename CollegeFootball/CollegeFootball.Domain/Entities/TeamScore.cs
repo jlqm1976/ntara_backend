@@ -9,10 +9,10 @@ namespace CollegeFootball.Domain.Entities
     public class TeamScore
     {
         public int Id { get; set; }
-        public int Rank { get; set; }
+        public int? Rank { get; set; }
         public string TeamName { get; set; } = string.Empty;
         public string MascotName { get; set; } = string.Empty;
-        public DateTime? LastWinDate { get; set; }
+        public string LastWinDate { get; set; } = string.Empty;
         public float? WinningPercentage { get; set; }
         public int? TotalLosses { get; set; }
         public int? TotalTies { get; set; }

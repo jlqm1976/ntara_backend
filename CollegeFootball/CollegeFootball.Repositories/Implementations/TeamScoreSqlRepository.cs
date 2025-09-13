@@ -39,5 +39,11 @@ namespace CollegeFootball.Repositories.Implementations
             dbCtx.TeamScores.Update(teamScore);
             await dbCtx.SaveChangesAsync();
         }
+
+        public async Task DeleteAllAsync()
+        {
+            dbCtx.TeamScores.RemoveRange(dbCtx.TeamScores);
+            await dbCtx.SaveChangesAsync();
+        }
     }
 }

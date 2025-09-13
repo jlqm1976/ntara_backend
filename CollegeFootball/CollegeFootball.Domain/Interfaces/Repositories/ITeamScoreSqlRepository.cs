@@ -13,5 +13,6 @@ namespace CollegeFootball.Domain.Interfaces.Repositories
         Task<IEnumerable<TeamScore>> GetAllAsync(Expression<Func<TeamScore, bool>> filter);
         Task AddAsync(TeamScore teamScore);
         Task UpdateAsync(TeamScore teamScore);
+        Task DeleteAllAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CollegeFootball.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeFootball.API.Controllers
 {
@@ -6,9 +7,11 @@ namespace CollegeFootball.API.Controllers
     [Route("[controller]/[action]")]
     public class TeamScoreController : ControllerBase
     {
-        public TeamScoreController()
-        {
+        private readonly ITeamScoreService tsService;
 
+        public TeamScoreController(ITeamScoreService _tsservice)
+        {
+            tsService = _tsservice;
         }
 
         [HttpPost()]
@@ -40,6 +43,8 @@ namespace CollegeFootball.API.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
+
+                await tsService.ImportRecordsFromCsv(finalFilePath);
 
                 // Return a success response.
                 return Ok("Success");

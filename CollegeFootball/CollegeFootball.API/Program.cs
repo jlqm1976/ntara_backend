@@ -2,6 +2,7 @@ using CollegeFootball.Domain.Interfaces.Repositories;
 using CollegeFootball.Domain.Interfaces.Services;
 using CollegeFootball.Repositories.DataContext;
 using CollegeFootball.Repositories.Implementations;
+using CollegeFootball.Repositories.Mappers;
 using CollegeFootball.Services.Implementations;
 
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<TeamScoreDataContext>(options => {
 
 builder.Services.AddScoped<ITeamScoreSqlRepository, TeamScoreSqlRepository>();
 builder.Services.AddScoped<ITeamScoreCsvRepository, TeamScoreCsvRepository>();
+builder.Services.AddScoped<ITeamScoreDTOMapper, TeamScoreDTOMap>();
 
 builder.Services.AddTransient<ITeamScoreService, TeamScoreService>();
 
