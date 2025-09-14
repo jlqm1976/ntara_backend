@@ -1,4 +1,5 @@
-﻿using CollegeFootball.Domain.Interfaces.Services;
+﻿using CollegeFootball.Domain.Entities;
+using CollegeFootball.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeFootball.API.Controllers
@@ -17,7 +18,8 @@ namespace CollegeFootball.API.Controllers
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UploadCsv(IFormFile file)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult UploadCsv(IFormFile file)
         {
             // Validate the file.
             if (file == null || file.Length == 0)
@@ -39,15 +41,19 @@ namespace CollegeFootball.API.Controllers
             // Save the file to the server's temporary location.
             try
             {
-                await using (var stream = new FileStream(finalFilePath, FileMode.Create))
+                using (var stream = new FileStream(finalFilePath, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    file.CopyTo(stream);
                 }
 
-                await tsService.ImportRecordsFromCsv(finalFilePath);
+                tsService.ImportRecordsFromCsv(finalFilePath);
 
                 // Return a success response.
                 return Ok("Success");
+            }
+            catch (Domain.Exceptions.NoRecordsInCsvException)
+            {
+                return BadRequest("The uploaded CSV file contains no records.");
             }
             catch (Exception ex)
             {
@@ -61,6 +67,38 @@ namespace CollegeFootball.API.Controllers
                 {
                     System.IO.File.Delete(finalFilePath);
                 }
+            }
+        }
+
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TeamScore>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var result = tsService.GetAll();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred with the request: {ex.Message}");
+            }
+        }
+
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TeamScore>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult Search([FromQuery]string searchValue, [FromQuery]IEnumerable<string> columns)
+        {
+            try
+            {
+                var result = tsService.Search(searchValue, columns);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred with the resquest: {ex.Message}");
             }
         }
     }

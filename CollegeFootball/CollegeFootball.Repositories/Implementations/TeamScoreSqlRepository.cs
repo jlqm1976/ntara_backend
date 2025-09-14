@@ -1,10 +1,7 @@
 ﻿using CollegeFootball.Domain.Entities;
 using CollegeFootball.Domain.Interfaces.Repositories;
+using CollegeFootball.Domain.Utils;
 using CollegeFootball.Repositories.DataContext;
-
-using Microsoft.EntityFrameworkCore;
-
-using System.Linq.Expressions;
 
 namespace CollegeFootball.Repositories.Implementations
 {
@@ -16,34 +13,131 @@ namespace CollegeFootball.Repositories.Implementations
             dbCtx = ctx;
         }
 
-        public async Task<IEnumerable<TeamScore>> GetAllAsync(Expression<Func<TeamScore, bool>> filter)
+        public IEnumerable<TeamScore> GetAll()
         {
-            if (filter == null)
-            {
-                return await dbCtx.TeamScores.ToListAsync();
-            }
-            else
-            {
-                return await dbCtx.TeamScores.Where(filter).ToListAsync();
-            }
+            return dbCtx.TeamScores.ToList();
         }
 
-        public async Task AddAsync(TeamScore teamScore)
+        public IEnumerable<TeamScore> Search(string searchValue, IEnumerable<string> columnNames)
         {
-            await dbCtx.TeamScores.AddAsync(teamScore);
-            await dbCtx.SaveChangesAsync();
+            string searchTerm = searchValue.ToLower() ?? "";
+            IQueryable<TeamScore> query = dbCtx.TeamScores;
+
+            // If no specific columns are provided then get all properties names in TeamScore class
+            var propertiesToSearch = columnNames?.Count() > 0 ? columnNames
+                : typeof(TeamScore).GetProperties().Where(p => p.CanWrite).Select(p => p.Name);
+
+            Func<TeamScore, bool> predicate = ts => false;
+
+            foreach (var propName in propertiesToSearch)
+            {
+                switch (propName)
+                {
+                    case "LastWinDate":
+                        var winDateInfo = MiscUtils.GetDateValue(searchTerm);
+
+                        if (winDateInfo.HasValue)
+                        {
+                            string dateValue = winDateInfo.Value.ToString("MM/dd/yyyy");
+                            predicate = ts => predicate(ts) || (!string.IsNullOrEmpty(ts.LastWinDate) && ts.LastWinDate == dateValue);
+                        }
+
+                        break;
+
+                    case "TeamName":
+                        predicate = ts => predicate(ts) || (!string.IsNullOrEmpty(ts.TeamName) && ts.TeamName.ToLower().Contains(searchTerm));
+                        break;
+
+                    case "MascotName":
+                        predicate = ts => predicate(ts) || (!string.IsNullOrEmpty(ts.MascotName) && ts.MascotName.ToLower().Contains(searchTerm));
+                        break;
+
+                    case "Rank":
+                        var rankInfo = MiscUtils.GetIntValue(searchTerm);
+
+                        if (rankInfo.HasValue)
+                        {
+                            predicate = ts => predicate(ts) || (ts.Rank == rankInfo.Value);
+                        }
+
+                        break;
+
+                    case "TotalLosses":
+                        var lossesInfo = MiscUtils.GetIntValue(searchTerm);
+                        
+                        if (lossesInfo.HasValue)
+                        {
+                            predicate = ts => predicate(ts) || (ts.TotalLosses == lossesInfo.Value);
+                        }
+
+                        break;
+
+                    case "TotalGames":
+                        var gamesInfo = MiscUtils.GetIntValue(searchTerm);
+
+                        if (gamesInfo.HasValue)
+                        {
+                            predicate = ts => predicate(ts) || (ts.TotalGames == gamesInfo.Value);
+                        }
+
+                        break;
+
+                    case "TotalTies":
+                        var tiesInfo = MiscUtils.GetIntValue(searchTerm);
+
+                        if (tiesInfo.HasValue)
+                        {
+                            predicate = ts => predicate(ts) || (ts.TotalTies == tiesInfo.Value);
+                        }
+
+                        break;
+
+                    case "TotalWins":
+                        var winsInfo = MiscUtils.GetIntValue(searchTerm);
+
+                        if (winsInfo.HasValue)
+                        {
+                            predicate = ts => predicate(ts) || (ts.TotalWins == winsInfo.Value);
+                        }
+
+                        break;
+
+                    case "WinningPercentage":
+                        var winPctInfo = MiscUtils.GetFloatValue(searchTerm);
+
+                        if (winPctInfo.HasValue)
+                        {
+                            predicate = ts => predicate(ts) || (ts.WinningPercentage == winPctInfo.Value);
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            var result = query.Where(predicate).ToList();
+
+            return result;
         }
 
-        public async Task UpdateAsync(TeamScore teamScore)
+        public void Add(TeamScore teamScore)
+        {
+            dbCtx.TeamScores.Add(teamScore);
+            dbCtx.SaveChanges();
+        }
+
+        public void Update(TeamScore teamScore)
         {
             dbCtx.TeamScores.Update(teamScore);
-            await dbCtx.SaveChangesAsync();
+            dbCtx.SaveChanges();
         }
 
-        public async Task DeleteAllAsync()
+        public void DeleteAll()
         {
             dbCtx.TeamScores.RemoveRange(dbCtx.TeamScores);
-            await dbCtx.SaveChangesAsync();
+            dbCtx.SaveChanges();
         }
     }
 }

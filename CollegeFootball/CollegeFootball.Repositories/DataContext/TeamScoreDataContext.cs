@@ -17,10 +17,21 @@ namespace CollegeFootball.Repositories.DataContext
             Database.EnsureCreated();
         }
 
+        public DbSet<SearchableColumn> SearchableColumns { get; set; }
         public DbSet<TeamScore> TeamScores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<SearchableColumn>(sc =>
+            {
+                sc.ToTable("SearchableColumn");
+                sc.HasKey(s => s.Id);
+
+                sc.Property(s => s.ColumnName).IsRequired().HasMaxLength(50);
+                sc.Property(s => s.DisplayName).IsRequired().HasMaxLength(50);
+                sc.Property(s => s.DisplayOrder).IsRequired();
+            });
+
             mb.Entity<TeamScore>(tb=>
             {
                 tb.ToTable("TeamScore");

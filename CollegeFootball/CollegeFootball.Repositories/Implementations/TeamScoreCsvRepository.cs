@@ -18,7 +18,7 @@ namespace CollegeFootball.Repositories.Implementations
         {
         }
 
-        public async Task<IEnumerable<TeamScoreDTO>> ReadCsvAsync(string filePath)
+        public IEnumerable<TeamScoreDTO> ReadCsv(string filePath)
         {
             List<TeamScoreDTO> tsRecords = null!;
 
@@ -35,7 +35,7 @@ namespace CollegeFootball.Repositories.Implementations
 
                     tsRecords = new List<TeamScoreDTO>();
 
-                    await foreach (var tsRecord in csvReader.GetRecordsAsync<TeamScoreDTO>())
+                    foreach (var tsRecord in csvReader.GetRecords<TeamScoreDTO>())
                     {
                         tsRecords.Add(tsRecord);
                     }

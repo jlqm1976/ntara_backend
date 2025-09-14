@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CollegeFootball.Domain.Entities;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,8 @@ namespace CollegeFootball.Domain.Interfaces.Services
 {
     public interface ITeamScoreService
     {
-        Task<bool> ImportRecordsFromCsv(string csvFilePath);
+        bool ImportRecordsFromCsv(string csvFilePath);
+        IEnumerable<TeamScore> GetAll();
+        IEnumerable<TeamScore> Search(string searchValue, IEnumerable<string> searchFields);
     }
 }

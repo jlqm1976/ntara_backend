@@ -1,4 +1,4 @@
-﻿using CollegeFootball.Domain.DTO;
+﻿using CollegeFootball.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CollegeFootball.Domain.Interfaces.Repositories
 {
-    public interface ITeamScoreCsvRepository
+    public interface ISearchableColumnRepository
     {
-        IEnumerable<TeamScoreDTO> ReadCsv(string filePath);
+        IEnumerable<SearchableColumn> GetAll();
     }
 }

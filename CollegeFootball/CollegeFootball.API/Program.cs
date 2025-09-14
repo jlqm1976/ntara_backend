@@ -12,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<TeamScoreDataContext>(options => {
     options.UseSqlite("Data Source=Database/FootballScores.db");
-});
+}, 
+ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<ITeamScoreSqlRepository, TeamScoreSqlRepository>();
 builder.Services.AddScoped<ITeamScoreCsvRepository, TeamScoreCsvRepository>();

@@ -1,12 +1,7 @@
-﻿using CollegeFootball.Domain.Interfaces.Repositories;
-using CollegeFootball.Domain.Interfaces.Services;
+﻿using CollegeFootball.Domain.Entities;
 using CollegeFootball.Domain.Exceptions;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CollegeFootball.Domain.Interfaces.Repositories;
+using CollegeFootball.Domain.Interfaces.Services;
 
 namespace CollegeFootball.Services.Implementations
 {
@@ -23,22 +18,31 @@ namespace CollegeFootball.Services.Implementations
             this.dtoMapper = dtoMapper;
         }
 
-        public async Task<bool> ImportRecordsFromCsv(string csvFilePath)
+        public bool ImportRecordsFromCsv(string csvFilePath)
         {
-            var dtoRecords = await csvRepo.ReadCsvAsync(csvFilePath);
+            var dtoRecords = csvRepo.ReadCsv(csvFilePath);
 
             if (dtoRecords == null || !dtoRecords.Any())
                 throw new NoRecordsInCsvException("No records found in the provided CSV file.");
 
-            await sqlRepo.DeleteAllAsync();
+            sqlRepo.DeleteAll();
 
             foreach (var dtoRec in dtoRecords)
             {
                 var sqlRec = dtoMapper.MapToEntity(dtoRec);
-                await sqlRepo.AddAsync(sqlRec);
+                sqlRepo.Add(sqlRec);
             }
 
             return true;
+        }
+
+        public IEnumerable<TeamScore> GetAll()
+        {
+            return sqlRepo.GetAll();
+        }
+        public IEnumerable<TeamScore> Search(string searchValue, IEnumerable<string> searchFields)
+        {
+            return sqlRepo.Search(searchValue, searchFields);
         }
     }
 }
