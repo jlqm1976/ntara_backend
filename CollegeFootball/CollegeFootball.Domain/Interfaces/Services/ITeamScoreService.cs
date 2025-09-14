@@ -11,7 +11,7 @@ namespace CollegeFootball.Domain.Interfaces.Services
     public interface ITeamScoreService
     {
         bool ImportRecordsFromCsv(string csvFilePath);
-        IEnumerable<TeamScore> GetAll();
-        IEnumerable<TeamScore> Search(string searchValue, IEnumerable<string> searchFields);
+        List<TeamScore> GetAll();
+        List<TeamScore> Search(string searchValue, IEnumerable<string> searchFields);
     }
 }

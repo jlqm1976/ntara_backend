@@ -18,7 +18,7 @@ namespace CollegeFootball.Repositories.Implementations
             dbCtx = ctx;
         }
 
-        public IEnumerable<SearchableColumn> GetAll()
+        public List<SearchableColumn> GetAll()
         {
             return dbCtx.SearchableColumns.OrderBy(c => c.DisplayOrder).ToList();
         }

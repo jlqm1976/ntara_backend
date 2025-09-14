@@ -18,7 +18,7 @@ namespace CollegeFootball.Repositories.Implementations
         {
         }
 
-        public IEnumerable<TeamScoreDTO> ReadCsv(string filePath)
+        public List<TeamScoreDTO> ReadCsv(string filePath)
         {
             List<TeamScoreDTO> tsRecords = null!;
 

@@ -9,6 +9,6 @@ namespace CollegeFootball.Domain.Interfaces.Repositories
 {
     public interface ITeamScoreCsvRepository
     {
-        IEnumerable<TeamScoreDTO> ReadCsv(string filePath);
+        List<TeamScoreDTO> ReadCsv(string filePath);
     }
 }

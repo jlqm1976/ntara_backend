@@ -93,8 +93,15 @@ namespace CollegeFootball.API.Controllers
         {
             try
             {
-                var result = tsService.Search(searchValue, columns);
-                return Ok(result);
+                if (string.IsNullOrEmpty(searchValue))
+                {
+                    return BadRequest("Search value cannot be null. To get all records, use the GetAll endpoint.");
+                }
+                else
+                {
+                    var result = tsService.Search(searchValue, columns);
+                    return Ok(result);
+                }
             }
             catch (Exception ex)
             {

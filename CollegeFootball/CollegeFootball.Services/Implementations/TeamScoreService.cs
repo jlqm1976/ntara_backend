@@ -11,11 +11,11 @@ namespace CollegeFootball.Services.Implementations
         private readonly ITeamScoreCsvRepository csvRepo;
         private readonly ITeamScoreDTOMapper dtoMapper;
 
-        public TeamScoreService(ITeamScoreSqlRepository _sqlRepo, ITeamScoreCsvRepository _csvRepo, ITeamScoreDTOMapper dtoMapper)
+        public TeamScoreService(ITeamScoreSqlRepository _sqlRepo, ITeamScoreCsvRepository _csvRepo, ITeamScoreDTOMapper _dtoMapper)
         {
-            this.sqlRepo = _sqlRepo;
-            this.csvRepo = _csvRepo;
-            this.dtoMapper = dtoMapper;
+            sqlRepo = _sqlRepo;
+            csvRepo = _csvRepo;
+            dtoMapper = _dtoMapper;
         }
 
         public bool ImportRecordsFromCsv(string csvFilePath)
@@ -36,11 +36,11 @@ namespace CollegeFootball.Services.Implementations
             return true;
         }
 
-        public IEnumerable<TeamScore> GetAll()
+        public List<TeamScore> GetAll()
         {
             return sqlRepo.GetAll();
         }
-        public IEnumerable<TeamScore> Search(string searchValue, IEnumerable<string> searchFields)
+        public List<TeamScore> Search(string searchValue, IEnumerable<string> searchFields)
         {
             return sqlRepo.Search(searchValue, searchFields);
         }

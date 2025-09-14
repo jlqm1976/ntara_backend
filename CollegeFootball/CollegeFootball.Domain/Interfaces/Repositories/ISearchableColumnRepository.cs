@@ -9,6 +9,6 @@ namespace CollegeFootball.Domain.Interfaces.Repositories
 {
     public interface ISearchableColumnRepository
     {
-        IEnumerable<SearchableColumn> GetAll();
+        List<SearchableColumn> GetAll();
     }
 }
