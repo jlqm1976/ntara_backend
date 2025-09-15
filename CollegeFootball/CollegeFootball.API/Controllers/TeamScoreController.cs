@@ -71,7 +71,7 @@ namespace CollegeFootball.API.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TeamScore>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TeamScore>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult GetAll()
         {
@@ -87,7 +87,8 @@ namespace CollegeFootball.API.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TeamScore>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TeamScore>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult Search([FromQuery]string searchValue, [FromQuery]IEnumerable<string> columns)
         {

@@ -18,6 +18,16 @@ namespace CollegeFootball.Domain.Utils
             return null;
         }
 
+        public static double? GetDoubleValue(string value)
+        {
+            if (double.TryParse(value, out double result))
+            {
+                return result;
+            }
+
+            return null;
+        }
+
         public static float? GetFloatValue(string value)
         {
             if (float.TryParse(value, out float result))

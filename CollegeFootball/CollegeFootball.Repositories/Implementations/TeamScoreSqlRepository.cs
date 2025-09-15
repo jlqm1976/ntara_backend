@@ -105,7 +105,7 @@ namespace CollegeFootball.Repositories.Implementations
                         break;
 
                     case "WinningPercentage":
-                        var winPctInfo = MiscUtils.GetFloatValue(searchTerm);
+                        var winPctInfo = MiscUtils.GetDoubleValue(searchTerm);
 
                         if (winPctInfo.HasValue)
                         {

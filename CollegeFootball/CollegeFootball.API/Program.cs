@@ -15,11 +15,13 @@ builder.Services.AddDbContext<TeamScoreDataContext>(options => {
 }, 
 ServiceLifetime.Scoped);
 
+builder.Services.AddScoped<ISearchableColumnRepository, SearchableColumnRepository>();
 builder.Services.AddScoped<ITeamScoreSqlRepository, TeamScoreSqlRepository>();
 builder.Services.AddScoped<ITeamScoreCsvRepository, TeamScoreCsvRepository>();
 builder.Services.AddScoped<ITeamScoreDTOMapper, TeamScoreDTOMap>();
 
 builder.Services.AddTransient<ITeamScoreService, TeamScoreService>();
+builder.Services.AddTransient<ISearchableColumnService, SearchableColumnService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -36,6 +38,9 @@ if (app.Environment.IsDevelopment())
     });
     app.UseSwaggerUI();
 }
+
+//add cors
+app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseHttpsRedirection();
 
