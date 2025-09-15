@@ -19,6 +19,7 @@ import {
     TableCell,
     TableContainer,
     TableHead,
+    TablePagination,
     TableRow,
 } from "@mui/material";
 
@@ -28,6 +29,9 @@ const DataPage = () => {
     const [selectedColumns, setSelectedColumns] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
+
 
     // Load all data on first render
     useEffect(() => {
@@ -40,6 +44,7 @@ const DataPage = () => {
         try {
             const response = await fetch("http://localhost:5269/TeamScore/GetAll");
             const result = await response.json();
+
             setData(result);
         } catch (error) {
             console.error("Error fetching all data:", error);
@@ -52,7 +57,12 @@ const DataPage = () => {
         try {
             const response = await fetch("http://localhost:5269/SearchableColumn/GetAll");
             const result = await response.json();
+
             setColumns(result);
+
+            // Select all columns by default
+            setSelectedColumns(result.map((col) => col.columnName));
+
         } catch (error) {
             console.error("Error fetching columns:", error);
         }
@@ -131,10 +141,21 @@ const DataPage = () => {
                 <CircularProgress />
             ) : (
                 <TableContainer component={Paper}>
+                    <TablePagination
+                        component="div"
+                        count={data.length}
+                        page={page}
+                        onPageChange={(event, newPage) => setPage(newPage)}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={(event) => {
+                            setRowsPerPage(parseInt(event.target.value, 10));
+                            setPage(0);
+                        }}
+                        rowsPerPageOptions={[25, 50, 100]}
+                    />
                     <Table>
                         <TableHead>
-                            <TableRow>
-                                <TableCell>Id</TableCell>
+                                <TableRow sx={{ backgroundColor: "#219ebc", "& th": { fontWeight: "bold" } }}>
                                 <TableCell>Rank</TableCell>
                                 <TableCell>Team Name</TableCell>
                                 <TableCell>Mascot Name</TableCell>
@@ -147,9 +168,10 @@ const DataPage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell>{row.id}</TableCell>
+                                {data
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row) => (
+                                <TableRow key={row.id} hover>
                                     <TableCell>{row.rank}</TableCell>
                                     <TableCell>{row.teamName}</TableCell>
                                     <TableCell>{row.mascotName}</TableCell>

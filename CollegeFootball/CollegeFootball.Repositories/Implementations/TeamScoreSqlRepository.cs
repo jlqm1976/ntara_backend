@@ -150,7 +150,7 @@ namespace CollegeFootball.Repositories.Implementations
 
         public List<TeamScore> GetAll()
         {
-            return dbCtx.TeamScores.ToList();
+            return dbCtx.TeamScores.OrderBy(ts => ts.Rank).ToList();
         }
 
         public List<TeamScore> Search(string searchValue, IEnumerable<string> columnNames)
@@ -171,7 +171,7 @@ namespace CollegeFootball.Repositories.Implementations
 
                 var lambda = GetLamdaSearchExpression(searchTerm, propertiesToSearch);
 
-                return query.Where(lambda).ToList();
+                return query.Where(lambda).OrderBy(ts => ts.Rank).ToList();
             }
         }
 
