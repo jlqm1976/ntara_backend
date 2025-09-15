@@ -1,6 +1,7 @@
 // DataPage.jsx
 import React, { useEffect, useState } from "react";
 import {
+    Alert,
     Box,
     Button,
     CircularProgress,
@@ -11,9 +12,8 @@ import {
     Select,
     Checkbox,
     ListItemText,
-    TextField,
-    Typography,
     Paper,
+    Snackbar,
     Table,
     TableBody,
     TableCell,
@@ -21,6 +21,8 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    TextField,
+    Typography
 } from "@mui/material";
 
 const DataPage = () => {
@@ -31,7 +33,7 @@ const DataPage = () => {
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
-
+    const [openAlert, setOpenAlert] = useState(false);
 
     // Load all data on first render
     useEffect(() => {
@@ -69,7 +71,10 @@ const DataPage = () => {
     };
 
     const handleSearch = async () => {
-        if (!searchValue || selectedColumns.length === 0) return;
+        if (!searchValue || selectedColumns.length === 0) {
+            setOpenAlert(true);
+            return;
+        }
 
         const query = new URLSearchParams();
         query.append("searchValue", searchValue);
@@ -102,7 +107,7 @@ const DataPage = () => {
                     onChange={(e) => setSearchValue(e.target.value)}
                 />
 
-                <FormControl sx={{ minWidth: 250 }}>
+                <FormControl sx={{ minWidth: 250, maxWidth: 300 }}>
                     <InputLabel id="columns-label">Select columns</InputLabel>
                     <Select
                         labelId="columns-label"
@@ -187,6 +192,20 @@ const DataPage = () => {
                     </Table>
                 </TableContainer>
             )}
+            <Snackbar
+                open={openAlert}
+                autoHideDuration={3000}
+                onClose={() => setOpenAlert(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={() => setOpenAlert(false)}
+                    severity="warning"
+                    sx={{ width: "100%" }}
+                >
+                    Search value cannot be empty and at least one column must be selected!
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

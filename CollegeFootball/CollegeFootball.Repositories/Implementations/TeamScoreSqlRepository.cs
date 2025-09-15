@@ -109,7 +109,7 @@ namespace CollegeFootball.Repositories.Implementations
 
                         if (winPctInfo.HasValue)
                         {
-                            var property = Expression.Property(parameter, "WinningPercentage"); // float?
+                            var property = Expression.Property(parameter, "WinningPercentage"); // double?
                             expr = Expression.Equal(property, Expression.Constant(winPctInfo.Value, property.Type));
                         }
 

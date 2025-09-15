@@ -31,10 +31,12 @@ export default function UploadPage() {
 
             if (res.ok) {
                 setStatus("✅ CSV file uploaded successfully.");
+                setFile(null); // Clear the selected file
             } else {
                 setStatus("❌ Error uploading the file.");
             }
         } catch (err) {
+            console.error(err);
             setStatus("❌ Server connection error.");
         }
     };
