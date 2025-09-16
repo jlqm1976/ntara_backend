@@ -6,6 +6,17 @@ This project is composed of two main parts:
 
 The application allows users to upload CSV files containing team scores and provides functionality to browse, search, and filter data interactively.
 
+## Setup Instructions
+
+1. You need to install Node.Js (for this project Node.Js 20.19 was used)
+2. You need Visual Studio 2022
+3. Clone the repository from https://github.com/jlqm1976/ntara_backend.git
+4. Open CollegeFootball.sln, the solution contains both Apps for REST API and UI
+5. Right click on the solution, select Configure Startup Projects, make sure Multiple Projects is selected as well as CollegeFootball.Client and CollegeFootball.API are set to Start.
+6. Build the Solution
+7. Execute
+8. 2 browser windows should will be opened, one for API App and another for UI.
+
 ---
 
 ## Features
@@ -69,11 +80,3 @@ The application allows users to upload CSV files containing team scores and prov
   - SQLite v3
 
 ---
-
-## Setup Instructions
-
-### Backend (API)
-1. Open Visual Studio 2022
-2. Clone the repository from https://github.com/jlqm1976/ntara_backend.git
-3. Open CollegeFootball.sln
-4. Right click on the solution and Restore dependencies
