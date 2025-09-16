@@ -14,7 +14,6 @@
 *.userosscache
 *.sln.docstates
 *.env
-!.slnLaunch.user
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -401,6 +400,14 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# VS Code files for those working on multiple tools
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
 # Local History for Visual Studio Code
 .history/
 
@@ -441,15 +448,12 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
-## ------------------------
-## For both IDEs
-## ------------------------
+# IDEs
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/*.code-snippets
 
 # otras herramientas
 .DS_Store
