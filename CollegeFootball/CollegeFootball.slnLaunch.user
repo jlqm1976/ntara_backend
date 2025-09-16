@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "CollegeFootball.API\\CollegeFootball.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "CollegeFootball.Client\\collegefootball.client.esproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
