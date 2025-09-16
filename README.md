@@ -10,7 +10,7 @@ The application allows users to upload CSV files containing team scores and prov
 
 1. You need to install Node.Js (for this project Node.Js 20.19 was used)
 2. You need Visual Studio 2022
-3. Clone the repository from https://github.com/jlqm1976/ntara_backend.git
+3. Clone the repository from [https://github.com/jlqm1976/ntara_demo.git](https://github.com/jlqm1976/ntara_demo.git)
 4. Open CollegeFootball.sln, the solution contains both Apps for REST API and UI
 5. Right click on the solution, select Configure Startup Projects, make sure Multiple Projects is selected as well as CollegeFootball.Client and CollegeFootball.API are set to Start.
 6. Build the Solution
@@ -77,6 +77,7 @@ The application allows users to upload CSV files containing team scores and prov
 - **Backend**
   - .NET 8
   - Entity Framework Core
+  - Advanced Lamba Expressions
   - SQLite v3
 
 ---
