@@ -1,5 +1,6 @@
 ﻿using CollegeFootball.Domain.Entities;
 using CollegeFootball.Domain.Interfaces.Services;
+using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeFootball.API.Controllers
@@ -50,6 +51,10 @@ namespace CollegeFootball.API.Controllers
 
                 // Return a success response.
                 return Ok("Success");
+            }
+            catch(CsvHelperException)
+            {
+                return BadRequest("The uploaded CSV file is malformed, contains invalid data or invalid headers.");
             }
             catch (Domain.Exceptions.NoRecordsInCsvException)
             {
